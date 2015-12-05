@@ -84,9 +84,11 @@ class Form(QtWidgets.QMainWindow):
 if __name__ == '__main__':
     dbc = DBControl()
     l = dbc.getDataList()
-    print(l)
 
-    app = QtWidgets.QApplication(sys.argv)
-    myForm = Form()
-    myForm.show()
-    sys.exit(app.exec())
+    j = JSON_Parser()
+    j.request_Melon('gd')
+
+    #app = QtWidgets.QApplication(sys.argv)
+    #myForm = Form()
+    #myForm.show()
+    #sys.exit(app.exec())

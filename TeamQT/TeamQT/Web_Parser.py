@@ -1,9 +1,64 @@
-﻿from bs4 import BeautifulSoup
+﻿import json
+from bs4 import BeautifulSoup
 from urllib.request import urlopen
 from tkinter import *
 
 
-class DataParser:
+class JSON_Parser:
+    class JsonObject:
+        def __init__(self, d):
+            self.__dict__ = d
+
+    def pythonToJson(self, data):
+        return json.dump(data, ensure_ascii=False)
+
+    def jsonToPython(self, data):
+        return json.loads(data)
+
+    def jsonToPython(self, data):
+        return json.loads(data, object_hook=self.JsonObject)
+
+    def request_Melon(self, searchKeyword):
+        self.version = 1
+        self.format = 'json'
+        self.appKey = '1dbcb88b-a238-392a-8bd6-3e44565bbe75'
+        self.page = 0
+        self.count = 50
+
+        self.url = 'http://apis.skplanetx.com/melon/artists?format=' + self.format
+        self.url += '&appKey=' + self.appKey
+        self.url += '&version=' + str(self.version)
+        self.url += '&page=' + str(self.page)
+        self.url += '&count=' + str(self.count)
+        self.url += '&searchKeyword=' + searchKeyword
+        
+        while True:
+            self.data = urlopen(self.url)
+            self.data = self.data.read().decode(encoding = 'utf-8')
+            self.dic = self.jsonToPython(self.data).melon
+        
+            print('Pages : ', self.page)
+            print('totalPages : ', self.dic.totalPages)
+            print('Count : ', self.count)
+            print('totalCount : ', self.dic.totalCount)
+
+            if self.dic.totalCount != self.count or self.dic.totalPages != self.page:
+                self.count = self.dic.totalCount
+                self.page = self.dic.totalPages
+            else:
+                break;
+        
+        list = self.dic.artists.artist
+        for item in list:   #artistName, sex, nationalityName, actTypeName, genreNames
+            if item.nationalityName == '대한민국':
+                print('artistName : ', item.artistName)
+                print('sex : ', item.sex)
+                print('nationalityName : ', item.nationalityName)
+                print('actTypeName : ', item.actTypeName)
+                print('genreNames : ', item.genreNames, '\n')
+
+
+class URL_Parser:
     def parse_MusicBrain(self):
         self.url = 'http://musicbrainz.org/area/b9f7d640-46e8-313e-b158-ded6d18593b3/artists?page=1'
         self.l = []
