@@ -19,43 +19,57 @@ class JSON_Parser:
         return json.loads(data, object_hook=self.JsonObject)
 
     def request_Melon(self, searchKeyword):
+        #http://apis.skplanetx.com/melon/artists?format=json&appKey=1dbcb88b-a238-392a-8bd6-3e44565bbe75&version=1&page=0&count=50&searchKeyword=
         self.version = 1
         self.format = 'json'
         self.appKey = '1dbcb88b-a238-392a-8bd6-3e44565bbe75'
+        self.appkey2 = 'fbb12dba-c982-36f3-8a76-7135acea6510'
+        self.appkey3 = ''
         self.page = 0
         self.count = 50
 
         self.url = 'http://apis.skplanetx.com/melon/artists?format=' + self.format
-        self.url += '&appKey=' + self.appKey
+        self.url += '&appKey=' + self.appkey2
         self.url += '&version=' + str(self.version)
         self.url += '&page=' + str(self.page)
         self.url += '&count=' + str(self.count)
-        self.url += '&searchKeyword=' + searchKeyword
+        self.url += '&searchKeyword=' + str(searchKeyword)
         
-        while True:
-            self.data = urlopen(self.url)
-            self.data = self.data.read().decode(encoding = 'utf-8')
-            self.dic = self.jsonToPython(self.data).melon
-        
-            print('Pages : ', self.page)
-            print('totalPages : ', self.dic.totalPages)
-            print('Count : ', self.count)
-            print('totalCount : ', self.dic.totalCount)
+        try:
+            while True:
+                self.data = urlopen(self.url)
+                self.data = self.data.read().decode(encoding = 'utf-8')
+                self.dic = self.jsonToPython(self.data).melon
+                #print('Pages : ', self.page)
+                #print('totalPages : ', self.dic.totalPages)
+                #print('Count : ', self.count)
+                #print('totalCount : ', self.dic.totalCount)
 
-            if self.dic.totalCount != self.count or self.dic.totalPages != self.page:
-                self.count = self.dic.totalCount
-                self.page = self.dic.totalPages
-            else:
-                break;
+                if self.dic.totalCount != self.count or self.dic.totalPages != self.page:
+                    self.count = self.dic.totalCount
+                    self.page = self.dic.totalPages
+                else:
+                    break;
         
-        list = self.dic.artists.artist
-        for item in list:   #artistName, sex, nationalityName, actTypeName, genreNames
-            if item.nationalityName == '대한민국':
-                print('artistName : ', item.artistName)
-                print('sex : ', item.sex)
-                print('nationalityName : ', item.nationalityName)
-                print('actTypeName : ', item.actTypeName)
-                print('genreNames : ', item.genreNames, '\n')
+            list = self.dic.artists.artist
+            reList = []
+            for item in list:   #artistName, sex, nationalityName, actTypeName, genreNames
+                if item.nationalityName == '대한민국':
+                    #print('artistName : ', item.artistName)
+                    #print('sex : ', item.sex)
+                    #print('nationalityName : ', item.nationalityName)
+                    #print('actTypeName : ', item.actTypeName)
+                    #print('genreNames : ', item.genreNames, '\n')
+                    reList.append(item.artistName)
+                
+        except AttributeError:
+            print('AttributeError')
+            reList = []
+        except UnicodeEncodeError:
+            print('UnicodeEncodeError')
+            reList = []
+
+        return reList
 
 
 class URL_Parser:

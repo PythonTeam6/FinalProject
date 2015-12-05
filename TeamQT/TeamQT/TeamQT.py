@@ -82,11 +82,26 @@ class Form(QtWidgets.QMainWindow):
 
 
 if __name__ == '__main__':
-    dbc = DBControl()
-    l = dbc.getDataList()
+    dbc = DBControl("test.db")
+    jparse = JSON_Parser()
 
-    j = JSON_Parser()
-    j.request_Melon('gd')
+    list = dbc.getDataList()
+    artistDB = DBControl("artist.db")
+
+    print(artistDB.getDataList())
+    #dbc.init_DB()
+    for item in list:
+        print(item[0])
+        result = artistDB.findArtist(item[0]).fetchall()
+        if len(result) == 0:
+            artists = jparse.request_Melon(item[0])
+            for artist in artists:
+                if artistDB.findArtist(artist) == None:
+                    artistDB.insertData(artist)
+        else:
+            print('Overlap\n')
+    
+
 
     #app = QtWidgets.QApplication(sys.argv)
     #myForm = Form()
