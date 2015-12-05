@@ -8,6 +8,9 @@ from PyQt5 import uic
 from PyQt5 import QtCore
 from PyQt5.QtCore import pyqtSlot
 
+from DB_Control import *
+from Web_Parser import *
+
 
 class Form(QtWidgets.QMainWindow):
     
@@ -76,13 +79,13 @@ class Form(QtWidgets.QMainWindow):
     @pyqtSlot()
     def convertSlot(self):
         print('click')
- 
 
-    
-        
-    
 
 if __name__ == '__main__':
+    dbc = DBControl()
+    l = dbc.getDataList()
+    print(l)
+
     app = QtWidgets.QApplication(sys.argv)
     myForm = Form()
     myForm.show()
