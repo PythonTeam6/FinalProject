@@ -81,30 +81,36 @@ class Form(QtWidgets.QMainWindow):
         print('click')
 
 
-if __name__ == '__main__':
+def melonParsing():
     dbc = DBControl("test.db")
-    jparse = JSON_Parser()
-
-    l = list(dbc.getDataList())
     artistDB = DBControl("artist.db")
-    
-    str = ('100% (South Korean group)',)
-    l = l[l.index(str):]
 
-    #dbc.init_DB()Sweet Reven
-    for item in l:
-        result = artistDB.findArtist(item[0]).fetchall()
-        if len(result) == 0:
-            artists = jparse.request_Melon(item[0])
-            for artist in artists:
-                result = artistDB.findArtist(artist).fetchall()
-                if len(result) == 0:
-                    print(artist)
-                    artistDB.insertData(artist)
-        else:
-            print('Overlap\n')
+    l = list(artistDB.getDataList())
+    print(l)
+
+    jparse = JSON_Parser()
+    l = list(dbc.getDataList())
     
-    #app = QtWidgets.QApplication(sys.argv)
-    #myForm = Form()
-    #myForm.show()
-    #sys.exit(app.exec())
+    #str = ('You Kyung',)
+    #l = l[l.index(str):]
+
+    #dbc.init_DB()
+    #for item in l:
+    #    result = artistDB.findArtist(item[0]).fetchall()
+    #    if len(result) == 0:
+    #        artists = jparse.request_Melon(item[0])
+    #        for artist in artists:
+    #            result = artistDB.findArtist(artist).fetchall()
+    #            if len(result) == 0:
+    #                print(artist)
+    #                artistDB.insertData(artist)
+    #    else:
+    #        print('Overlap\n')
+
+if __name__ == '__main__':
+    #melonParsing()
+
+    app = QtWidgets.QApplication(sys.argv)
+    myForm = Form()
+    myForm.show()
+    sys.exit(app.exec())
