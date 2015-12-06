@@ -8,6 +8,9 @@ from PyQt5 import uic
 from PyQt5 import QtCore
 from PyQt5.QtCore import pyqtSlot
 
+from DB_Control import *
+from Web_Parser import *
+
 
 class Form(QtWidgets.QMainWindow):
     
@@ -76,13 +79,37 @@ class Form(QtWidgets.QMainWindow):
     @pyqtSlot()
     def convertSlot(self):
         print('click')
- 
 
+
+def melonParsing():
+    dbc = DBControl("test.db")
+    artistDB = DBControl("artist.db")
+
+    l = list(artistDB.getDataList())
+    print(l)
+
+    jparse = JSON_Parser()
+    l = list(dbc.getDataList())
     
-        
-    
+    #str = ('You Kyung',)
+    #l = l[l.index(str):]
+
+    #dbc.init_DB()
+    #for item in l:
+    #    result = artistDB.findArtist(item[0]).fetchall()
+    #    if len(result) == 0:
+    #        artists = jparse.request_Melon(item[0])
+    #        for artist in artists:
+    #            result = artistDB.findArtist(artist).fetchall()
+    #            if len(result) == 0:
+    #                print(artist)
+    #                artistDB.insertData(artist)
+    #    else:
+    #        print('Overlap\n')
 
 if __name__ == '__main__':
+    #melonParsing()
+
     app = QtWidgets.QApplication(sys.argv)
     myForm = Form()
     myForm.show()
