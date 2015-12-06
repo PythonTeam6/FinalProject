@@ -60,6 +60,7 @@ class VideoForm(QtWidgets.QMainWindow):
         self.dragTemp2 = ''
         self.tempRow = 0
         self.tempRow2 = 0
+        self.recentPath = ''
         
         self.tableWidget.setColumnWidth(0,int(width/2))
         self.tableWidget2.setColumnWidth(0,int(width/2))
@@ -238,13 +239,14 @@ class VideoForm(QtWidgets.QMainWindow):
             print('video나 sub가 비었음')
 
     def OnClickAddVideos(self):
-        (a, b) = QtWidgets.QFileDialog.getOpenFileNames(self, 'Open file', '', 'Video Files (*.avi *.mp4 *.wmv *.mpeg *.mpg *.flv *.asf *.mov);;All Files (*.*)')
+        (a, b) = QtWidgets.QFileDialog.getOpenFileNames(self, 'Open file', self.recentPath, 'Video Files (*.avi *.mp4 *.wmv *.mpeg *.mpg *.flv *.asf *.mov *.mkv);;All Files (*.*)')
         if len(self.videoFiles) == 0:
             self.videoFiles = a
         else:
             for l in a:
                 if l not in self.videoFiles:
                     self.videoFiles.append(l)
+                    self.recentPath, etc = os.path.split(l)
 
         if len(self.videoFiles) == 0:
             return
@@ -257,13 +259,14 @@ class VideoForm(QtWidgets.QMainWindow):
             self.row = len(self.videoFiles)
     
     def OnClickAddSubs(self):
-        (a, b) = QtWidgets.QFileDialog.getOpenFileNames(self, 'Open file', '', 'Sub Files (*.smi);;All Files (*.*)')
+        (a, b) = QtWidgets.QFileDialog.getOpenFileNames(self, 'Open file', self.recentPath, 'Sub Files (*.smi);;All Files (*.*)')
         if len(self.subFiles) == 0:
             self.subFiles = a
         else:
             for l in a:
                 if l not in self.subFiles:
                     self.subFiles.append(l)
+                    self.recentPath, etc = os.path.split(l)
 
         if len(self.subFiles) == 0:
             return
