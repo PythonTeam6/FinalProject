@@ -11,16 +11,16 @@ class Form(QtWidgets.QMainWindow):
     
     def resizeEvent(self ,resizeEvent):
         geo = self.frameGeometry()   
-        print(geo.width(), geo.height())
+        #print(geo.width(), geo.height())
         
         width = geo.width()
         height = geo.height()
 
-        self.tableWidget.resize(width, int(height*521/631))
-        self.tableWidget.setColumnWidth(0,int(width*2/11))
-        self.tableWidget.setColumnWidth(1,int(width*5/11))
-        self.tableWidget.setColumnWidth(2,int(width*2/11))
-        self.tableWidget.setColumnWidth(3,int(width*2/11))
+        self.tableWidget.resize(width, int(height*475/631))
+        self.tableWidget.setColumnWidth(0,int(width*1/self.divide))
+        self.tableWidget.setColumnWidth(1,int(width*3/self.divide))
+        self.tableWidget.setColumnWidth(2,int(width*2/self.divide))
+        self.tableWidget.setColumnWidth(3,int(width*2.3/self.divide))
         #QtWidgets.QMessageBox.information(self,"Information!","Window has been resized...")    
     
 
@@ -32,17 +32,27 @@ class Form(QtWidgets.QMainWindow):
         
         geo = self.frameGeometry()        
         print(geo.width(), geo.height())
+        
         width = geo.width()
         height = geo.height()
         
         self.files = []
         self.row = 0
+        self.tempRow = 0
+        self.dragTemp = ''
+        self.flag = False
+        self.divide = 9
+        
+        self.tableWidget.resize(width, int(height*475/631))
+        self.tableWidget.setColumnWidth(0,int(width*1/self.divide))
+        self.tableWidget.setColumnWidth(1,int(width*3/self.divide))
+        self.tableWidget.setColumnWidth(2,int(width*2/self.divide))
+        self.tableWidget.setColumnWidth(3,int(width*2.3/self.divide))
+        
+        self.tableWidget.setRowCount(self.row)
+              
+        self.tableWidget.cellDoubleClicked.connect(self.OnDelete)
 
-        self.tableWidget.setColumnWidth(0,int(width*2/11))
-        self.tableWidget.setColumnWidth(1,int(width*5/11))
-        self.tableWidget.setColumnWidth(2,int(width*2/11))
-        self.tableWidget.setColumnWidth(3,int(width*2/11))
-               
         self.actionAdd_Files.setShortcut('Ctrl+O')
         self.actionAdd_Files.setStatusTip('Open new File')
         self.actionAdd_Files.triggered.connect(self.OnClickAdd)
@@ -53,6 +63,25 @@ class Form(QtWidgets.QMainWindow):
         self.pathButton.pressed.connect(self.OnClickPath)
         #self.show()
 
+    def OnDelete(self, row, col):
+        print(row, col)
+        print("double Clicked")
+        del self.files[row]
+        self.row = len(self.files)
+        self.tableWidget.setRowCount(0)
+        self.tableWidget.setRowCount(self.row)
+        for k in range(self.row):
+            newitem = QtWidgets.QTableWidgetItem()                
+            newitem.setText("unChanged")
+            self.tableWidget.setItem(k, 0, newitem)       
+            newitem = QtWidgets.QTableWidgetItem()                
+            newitem.setText(self.files[k])
+            self.tableWidget.setItem(k, 1, newitem)   
+            newitem = QtWidgets.QTableWidgetItem()                
+            newitem.setText(os.path.basename(self.files[k]))
+            self.tableWidget.setItem(k, 2, newitem)            
+            
+    
     
     def OnClickConvert(self):
         print("I'm convert Button")
@@ -62,7 +91,7 @@ class Form(QtWidgets.QMainWindow):
         print("I'm path Button")
     
     def OnClickAdd(self):
-        (a, b) = QtWidgets.QFileDialog.getOpenFileNames(self, 'Open file', '/home')
+        (a, b) = QtWidgets.QFileDialog.getOpenFileNames(self, 'Open file', '', 'Music Files (*.mp3 *.wav *.flac);;All Files (*.*)')
         if len(self.files) == 0:
             self.files = a
         else:
