@@ -16,11 +16,11 @@ class Form(QtWidgets.QMainWindow):
         width = geo.width()
         height = geo.height()
 
-        self.treeWidget.resize(width, int(height*521/631))
-        self.treeWidget.setColumnWidth(0,int(width*2/11))
-        self.treeWidget.setColumnWidth(1,int(width*5/11))
-        self.treeWidget.setColumnWidth(2,int(width*2/11))
-        self.treeWidget.setColumnWidth(3,int(width*2/11))
+        self.tableWidget.resize(width, int(height*521/631))
+        self.tableWidget.setColumnWidth(0,int(width*2/11))
+        self.tableWidget.setColumnWidth(1,int(width*5/11))
+        self.tableWidget.setColumnWidth(2,int(width*2/11))
+        self.tableWidget.setColumnWidth(3,int(width*2/11))
         #QtWidgets.QMessageBox.information(self,"Information!","Window has been resized...")    
     
 
@@ -35,11 +35,13 @@ class Form(QtWidgets.QMainWindow):
         width = geo.width()
         height = geo.height()
         
+        self.files = []
+        self.row = 0
 
-        self.treeWidget.setColumnWidth(0,int(width*2/11))
-        self.treeWidget.setColumnWidth(1,int(width*5/11))
-        self.treeWidget.setColumnWidth(2,int(width*2/11))
-        self.treeWidget.setColumnWidth(3,int(width*2/11))
+        self.tableWidget.setColumnWidth(0,int(width*2/11))
+        self.tableWidget.setColumnWidth(1,int(width*5/11))
+        self.tableWidget.setColumnWidth(2,int(width*2/11))
+        self.tableWidget.setColumnWidth(3,int(width*2/11))
                
         self.actionAdd_Files.setShortcut('Ctrl+O')
         self.actionAdd_Files.setStatusTip('Open new File')
@@ -60,20 +62,34 @@ class Form(QtWidgets.QMainWindow):
         print("I'm path Button")
     
     def OnClickAdd(self):
-        fnames = QtWidgets.QFileDialog.getOpenFileNames(self, 'Open file', '/home')
-        if len(fnames[0]) == 0:
-            return
+        (a, b) = QtWidgets.QFileDialog.getOpenFileNames(self, 'Open file', '/home')
+        if len(self.files) == 0:
+            self.files = a
         else:
-            for k in range(len(fnames)):
-                a = QtWidgets.QTreeWidgetItem(self.treeWidget)
-                a.setText(0, "unchanged")
-                a.setText(1, fnames[0][k])
-                a.setText(2, os.path.basename(fnames[0][k]))
+            for l in a:
+                if l not in self.files:
+                    self.files.append(l)
+        if len(self.files) == 0:
+            return
+        else:       
+            for k in range(len(self.files) - self.row):
+                self.tableWidget.setRowCount(len(self.files))
+                newitem = QtWidgets.QTableWidgetItem()                
+                newitem.setText("unChanged")
+                self.tableWidget.setItem(k+self.row, 0, newitem)            
+                newitem = QtWidgets.QTableWidgetItem()                
+                newitem.setText(self.files[k+self.row])
+                self.tableWidget.setItem(k+self.row, 1, newitem)      
+                newitem = QtWidgets.QTableWidgetItem()                
+                newitem.setText(os.path.basename(self.files[k+self.row]))
+                self.tableWidget.setItem(k+self.row, 2, newitem)  
+            self.row = len(self.files)
+
+                  
+            
     
  
-    @pyqtSlot()
-    def convertSlot(self):
-        print('click')
+    
         
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
