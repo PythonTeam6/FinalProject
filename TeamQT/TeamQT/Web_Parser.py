@@ -22,14 +22,13 @@ class JSON_Parser:
         #http://apis.skplanetx.com/melon/artists?format=json&appKey=1dbcb88b-a238-392a-8bd6-3e44565bbe75&version=1&page=0&count=50&searchKeyword=
         self.version = 1
         self.format = 'json'
-        self.appKey = '1dbcb88b-a238-392a-8bd6-3e44565bbe75'
+        self.appkey1 = '345e9f53-3eae-3fed-988d-6127852f2633'
         self.appkey2 = 'fbb12dba-c982-36f3-8a76-7135acea6510'
-        self.appkey3 = ''
         self.page = 0
         self.count = 50
 
         self.url = 'http://apis.skplanetx.com/melon/artists?format=' + self.format
-        self.url += '&appKey=' + self.appkey2
+        self.url += '&appKey=' + self.appkey1
         self.url += '&version=' + str(self.version)
         self.url += '&page=' + str(self.page)
         self.url += '&count=' + str(self.count)
@@ -68,7 +67,9 @@ class JSON_Parser:
         except UnicodeEncodeError:
             print('UnicodeEncodeError')
             reList = []
-
+        except:
+            print('Key limit! Last keyword : ', searchKeyword)
+        
         return reList
 
 

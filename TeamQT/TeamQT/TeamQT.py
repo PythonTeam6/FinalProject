@@ -85,24 +85,25 @@ if __name__ == '__main__':
     dbc = DBControl("test.db")
     jparse = JSON_Parser()
 
-    list = dbc.getDataList()
+    l = list(dbc.getDataList())
     artistDB = DBControl("artist.db")
+    
+    str = ('100% (South Korean group)',)
+    l = l[l.index(str):]
 
-    print(artistDB.getDataList())
-    #dbc.init_DB()
-    for item in list:
-        print(item[0])
+    #dbc.init_DB()Sweet Reven
+    for item in l:
         result = artistDB.findArtist(item[0]).fetchall()
         if len(result) == 0:
             artists = jparse.request_Melon(item[0])
             for artist in artists:
-                if artistDB.findArtist(artist) == None:
+                result = artistDB.findArtist(artist).fetchall()
+                if len(result) == 0:
+                    print(artist)
                     artistDB.insertData(artist)
         else:
             print('Overlap\n')
     
-
-
     #app = QtWidgets.QApplication(sys.argv)
     #myForm = Form()
     #myForm.show()
