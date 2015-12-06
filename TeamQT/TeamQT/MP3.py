@@ -7,7 +7,7 @@ from PyQt5 import QtCore
 from PyQt5.QtCore import pyqtSlot
 
 
-class Form(QtWidgets.QMainWindow):
+class MP3Form(QtWidgets.QMainWindow):
     
     def resizeEvent(self ,resizeEvent):
         geo = self.frameGeometry()   

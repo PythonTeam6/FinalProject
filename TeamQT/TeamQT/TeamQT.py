@@ -114,12 +114,12 @@ if __name__ == '__main__':
 
     #Video
     app = QtWidgets.QApplication(sys.argv)
-    myWindow = Form()
+    myWindow = VideoForm()
     myWindow.show()
     sys.exit(app.exec())
     
     #mp3
     #app = QtWidgets.QApplication(sys.argv)
-    #myForm = Form()
+    #myForm = MP3Form()
     #myForm.show()
     #sys.exit(app.exec())

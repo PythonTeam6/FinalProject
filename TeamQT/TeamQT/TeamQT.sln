@@ -8,6 +8,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CE08BF2D-A077-4015-844C-55BE0B44E896}"
 	ProjectSection(SolutionItems) = preProject
 		DB_Control.py = DB_Control.py
+		MP3.py = MP3.py
+		Video.py = Video.py
 		Web_Parser.py = Web_Parser.py
 	EndProjectSection
 EndProject

@@ -6,7 +6,7 @@ from PyQt5 import uic
 from PyQt5 import QtCore
 
 
-class Form(QtWidgets.QMainWindow):
+class VideoForm(QtWidgets.QMainWindow):
     
     def resizeEvent(self ,resizeEvent):
         geo = self.frameGeometry()   
