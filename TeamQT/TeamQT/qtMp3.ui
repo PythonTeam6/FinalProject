@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1000</width>
+    <width>997</width>
     <height>631</height>
    </rect>
   </property>
@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTreeWidget" name="treeWidget">
+   <widget class="QTableWidget" name="tableWidget">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -29,41 +29,30 @@
       <verstretch>0</verstretch>
      </sizepolicy>
     </property>
-    <attribute name="headerDefaultSectionSize">
-     <number>200</number>
+    <attribute name="verticalHeaderDefaultSectionSize">
+     <number>30</number>
+    </attribute>
+    <attribute name="verticalHeaderMinimumSectionSize">
+     <number>30</number>
     </attribute>
     <column>
      <property name="text">
-      <string>    Status</string>
-     </property>
-     <property name="font">
-      <font>
-       <kerning>true</kerning>
-      </font>
-     </property>
-     <property name="textAlignment">
-      <set>AlignLeading|AlignVCenter</set>
+      <string>상태</string>
      </property>
     </column>
     <column>
      <property name="text">
-      <string>Path</string>
-     </property>
-     <property name="textAlignment">
-      <set>AlignLeading|AlignVCenter</set>
+      <string>경로</string>
      </property>
     </column>
     <column>
      <property name="text">
-      <string>FileName</string>
-     </property>
-     <property name="textAlignment">
-      <set>AlignLeading|AlignVCenter</set>
+      <string>기존 파일이름</string>
      </property>
     </column>
     <column>
      <property name="text">
-      <string>NewName</string>
+      <string>새 파일이름</string>
      </property>
     </column>
    </widget>
@@ -185,7 +174,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1000</width>
+     <width>997</width>
      <height>31</height>
     </rect>
    </property>
