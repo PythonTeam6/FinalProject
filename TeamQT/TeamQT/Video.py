@@ -5,6 +5,7 @@ from PyQt5 import QtGui
 from PyQt5 import uic
 from PyQt5 import QtCore
 
+import shutil
 
 class VideoForm(QtWidgets.QMainWindow):
     
@@ -59,6 +60,7 @@ class VideoForm(QtWidgets.QMainWindow):
         self.dragTemp2 = ''
         self.tempRow = 0
         self.tempRow2 = 0
+        self.recentPath = ''
         
         self.tableWidget.setColumnWidth(0,int(width/2))
         self.tableWidget2.setColumnWidth(0,int(width/2))
@@ -218,15 +220,33 @@ class VideoForm(QtWidgets.QMainWindow):
 
     def OnClickMatch(self):
         print("match button pushed")
+        if len(self.videoFiles) != 0 and len(self.subFiles) != 0:
+            if len(self.videoFiles) == len(self.subFiles):
+                for i in range(len(self.videoFiles)):
+                    t, videoName = os.path.split(self.videoFiles[i])    #video 이름 받기
+                    videoName, t = os.path.splitext(videoName)
+                    videoPath, t = os.path.splitext(self.videoFiles[i]) #video Path 받기
+
+                    t, subName = os.path.split(self.subFiles[i])    # 자막 이름 받기
+                    t, etc = os.path.splitext(self.subFiles[i])     # 자막 확장자 받기
+                    
+                    print(subName, '\n->', videoName + etc)
+                    #os.rename(self.subFiles[i], videoPath + etc)  # 파일 이름바꾸기
+                    shutil.copy(self.subFiles[i], videoPath + etc)    # 파일 복사
+            else:
+                print('video와 sub의 갯수가 다름')
+        else:
+            print('video나 sub가 비었음')
 
     def OnClickAddVideos(self):
-        (a, b) = QtWidgets.QFileDialog.getOpenFileNames(self, 'Open file', '/home')
+        (a, b) = QtWidgets.QFileDialog.getOpenFileNames(self, 'Open file', self.recentPath, 'Video Files (*.avi *.mp4 *.wmv *.mpeg *.mpg *.flv *.asf *.mov *.mkv);;All Files (*.*)')
         if len(self.videoFiles) == 0:
             self.videoFiles = a
         else:
             for l in a:
                 if l not in self.videoFiles:
                     self.videoFiles.append(l)
+                    self.recentPath, etc = os.path.split(l)
 
         if len(self.videoFiles) == 0:
             return
@@ -239,13 +259,14 @@ class VideoForm(QtWidgets.QMainWindow):
             self.row = len(self.videoFiles)
     
     def OnClickAddSubs(self):
-        (a, b) = QtWidgets.QFileDialog.getOpenFileNames(self, 'Open file', '/home')
+        (a, b) = QtWidgets.QFileDialog.getOpenFileNames(self, 'Open file', self.recentPath, 'Sub Files (*.smi);;All Files (*.*)')
         if len(self.subFiles) == 0:
             self.subFiles = a
         else:
             for l in a:
                 if l not in self.subFiles:
                     self.subFiles.append(l)
+                    self.recentPath, etc = os.path.split(l)
 
         if len(self.subFiles) == 0:
             return
