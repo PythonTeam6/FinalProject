@@ -41,13 +41,13 @@ def melonParsing():
     #        print('Overlap\n')
 
 if __name__ == '__main__':
-    #melonParsing()
+    melonParsing()
 
     #Video
-    app = QtWidgets.QApplication(sys.argv)
-    myWindow = VideoForm()
-    myWindow.show()
-    sys.exit(app.exec())
+    #app = QtWidgets.QApplication(sys.argv)
+    #myWindow = VideoForm()
+    #myWindow.show()
+    #sys.exit(app.exec())
     
     #mp3
     #app = QtWidgets.QApplication(sys.argv)
